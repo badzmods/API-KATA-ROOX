@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kata Random</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #141e30, #243b55);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .kata-box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+    .kata-box h2 {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+    }
+    .kata-box p {
+      font-size: 1.8em;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="kata-box">
+    <h2>Kata Hari Ini:</h2>
+    <p id="kataRandom">Loading...</p>
+  </div>
+
+  <script>
+    const kataList = [
+      "Tetap semangat dan terus maju!",
+      "Senyumanmu adalah kekuatanmu.",
+      "Jangan takut gagal, takutlah tidak mencoba.",
+      "Setiap hari adalah kesempatan baru.",
+      "Hidupmu berharga, jangan sia-siakan.",
+      "Bersyukur membuat hati tenang.",
+      "Jadilah versi terbaik dari dirimu."
+    ];
+
+    // Pilih kata acak
+    const randomKata = kataList[Math.floor(Math.random() * kataList.length)];
+
+    // Tampilkan di halaman
+    document.getElementById("kataRandom").innerText = randomKata;
+  </script>
+
+</body>
+</html>
