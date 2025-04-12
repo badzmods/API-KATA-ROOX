@@ -1,61 +1,186 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Kata Random</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kata Sad</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(to right, #141e30, #243b55);
+      background-color: #000000;
       color: #fff;
+      font-family: 'Arial', sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
       height: 100vh;
       margin: 0;
-    }
-    .kata-box {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      flex-direction: column;
       text-align: center;
     }
-    .kata-box h2 {
-      font-size: 1.5em;
-      margin-bottom: 20px;
-    }
-    .kata-box p {
-      font-size: 1.8em;
+
+    .owner {
+      position: absolute;
+      top: 20px;
+      font-size: 1.2em;
+      color: #ffff;
       font-weight: bold;
+    }
+
+    .kata {
+      font-size: 2.2em;
+      max-width: 80%;
+      margin-bottom: 20px;
+      line-height: 1.5;
+      font-weight: 500;
+      color: #ffff;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .btn-copy {
+      padding: 15px 30px;
+      background-color: #ff6666;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1.1em;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-copy:hover {
+      background-color: #ff4d4d;
+    }
+
+    .btn-copy:active {
+      background-color: #e60000;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 20px;
+      font-size: 0.9em;
+      color: #bbb;
+    }
+
+    .success-message {
+      font-size: 1.1em;
+      color: #4CAF50;
+      margin-top: 20px;
+      display: none;
     }
   </style>
 </head>
 <body>
-
-  <div class="kata-box">
-    <h2>Kata Hari Ini:</h2>
-    <p id="kataRandom">Loading...</p>
-  </div>
+  <div class="owner">By ROOX XD</div>
+  <div class="kata" id="kata"></div>
+  <button class="btn-copy" onclick="copyText()">Copy</button>
+  <div class="success-message" id="successMessage">Kata berhasil disalin!</div>
+  <div class="footer">Jangan lupa untuk tetap tersenyum!</div>
 
   <script>
-    const kataList = [
+    const kata = [
       "Tetap semangat dan terus maju!",
       "Senyumanmu adalah kekuatanmu.",
       "Jangan takut gagal, takutlah tidak mencoba.",
       "Setiap hari adalah kesempatan baru.",
       "Hidupmu berharga, jangan sia-siakan.",
       "Bersyukur membuat hati tenang.",
-      "Jadilah versi terbaik dari dirimu."
+      "Jadilah versi terbaik dari dirimu.",
+      "Kesabaran adalah kunci kesuksesan.",
+      "Jangan menyerah, setiap kesulitan memiliki jalan keluar.",
+      "Percayalah pada dirimu sendiri, kamu bisa melakukannya.",
+      "Hidup adalah tentang belajar dan tumbuh.",
+      "Jangan biarkan ketakutan menghalangi impianmu.",
+      "Kesedihan adalah bagian dari hidup, tapi jangan biarkan itu menghalangi kamu untuk terus maju.",
+      "Jangan takut untuk menangis, itu adalah cara tubuh untuk melepaskan emosi.",
+      "Kehilangan adalah bagian dari hidup, tapi ingatlah kenangan indah yang telah kamu miliki.",
+      "Jangan menyerah, kesedihan akan berlalu dengan waktu.",
+      "Percayalah bahwa kamu kuat dan bisa melewati kesedihan ini.",
+      "Hidup terlalu singkat untuk disia-siakan.",
+      "Jangan pernah menyerah pada impianmu.",
+      "Kamu lebih kuat dari yang kamu pikir.",
+      "Setiap kegagalan adalah pelajaran berharga.",
+      "Jangan biarkan pendapat orang lain menentukan hidupmu.",
+      "Kamu memiliki potensi untuk mencapai apa saja.",
+      "Jangan takut untuk mencoba hal baru.",
+      "Hidup adalah tentang mengambil risiko dan mencoba.",
+      "Jangan menyerah pada kesulitan, teruslah berjuang.",
+      "Kamu akan menemukan jalan keluar dari setiap kesulitan.",
+      "Percayalah pada proses, hasilnya akan terlihat.",
+      "Jangan biarkan ketakutan menguasai hidupmu.",
+      "Kamu memiliki kekuatan untuk mengubah hidupmu.",
+      "Jangan pernah menyerah pada diri sendiri.",
+      "Setiap hari adalah kesempatan untuk memulai kembali.",
+      "Hidup adalah tentang membuat pilihan dan mengambil keputusan.",
+      "Jangan biarkan penyesalan menguasai hidupmu.",
+      "Kamu memiliki kemampuan untuk mencapai apa saja.",
+      "Jangan takut untuk meminta bantuan.",
+      "Hidup adalah tentang belajar dari kesalahan.",
+      "Jangan menyerah pada impianmu, teruslah berjuang.",
+      "Kamu akan menemukan kebahagiaan dalam hidup.",
+      "Percayalah pada dirimu sendiri dan kemampuanmu.",
+      "Hidup terlalu berharga untuk disia-siakan.",
+      "Jangan biarkan orang lain menentukan hidupmu.",
+      "Kamu memiliki potensi untuk menjadi siapa saja.",
+      "Jangan takut untuk mengambil risiko.",
+      "Hidup adalah tentang mencoba dan menemukan apa yang kamu sukai.",
+      "Jangan menyerah pada kesulitan, teruslah berusaha.",
+      "Kamu akan menemukan jalan keluar dari setiap masalah.",
+      "Percayalah pada dirimu sendiri dan kemampuanmu.",
+      "Hidup adalah tentang membuat keputusan dan mengambil tindakan.",
+      "Jangan biarkan ketakutan menghalangi impianmu.",
+      "Kamu memiliki kekuatan untuk mengubah hidupmu menjadi lebih baik.",
+      "Jangan pernah menyerah pada diri sendiri dan impianmu.",
+      "Setiap hari adalah kesempatan baru untuk memulai kembali.",
+      "Hidup adalah tentang belajar dan tumbuh menjadi lebih baik.",
+      "Jangan biarkan penyesalan menguasai hidupmu, teruslah maju.",
+      "Kamu memiliki kemampuan untuk mencapai apa saja yang kamu inginkan.",
+      "Jangan takut untuk meminta bantuan ketika kamu membutuhkannya.",
+      "Hidup adalah tentang membuat pilihan dan mengambil keputusan yang tepat.",
+      "Jangan menyerah pada impianmu, teruslah berjuang dan berusaha.",
+      "Kamu akan menemukan kebahagiaan dan kesuksesan dalam hidup.",
+      "Percayalah pada dirimu sendiri dan kemampuanmu untuk mencapai apa saja.",
+      "Hidup terlalu singkat untuk disia-siakan, teruslah maju dan berjuang.",
+      "Jangan biarkan orang lain menentukan hidupmu, jadilah diri sendiri.",
+      "Kamu memiliki potensi untuk menjadi siapa saja dan mencapai apa saja.",
+      "Jangan takut untuk mengambil risiko dan mencoba hal baru.",
+      "Hidup adalah tentang belajar dari kesalahan dan menjadi lebih baik.",
+      "Jangan menyerah pada kesulitan, teruslah berusaha dan berjuang.",
+      "Kamu akan menemukan jalan keluar dari setiap masalah dan kesulitan.",
+      "Percayalah pada dirimu sendiri dan kemampuanmu untuk mengatasi setiap tantangan.",
+      "Hidup adalah tentang membuat keputusan dan mengambil tindakan yang tepat.",
+      "Jangan biarkan ketakutan menghalangi impianmu, teruslah maju dan berjuang.",
+      "Kamu memiliki kekuatan untuk mengubah hidupmu menjadi lebih baik dan lebih bahagia.",
+      ",Jangan pernah menyerah pada diri sendiri dan impianmu, teruslah berjuang.",
+      "Setiap hari adalah kesempatan baru untuk memulai kembali dan menjadi lebih baik.",
+      "Hidup adalah tentang belajar dan tumbuh menjadi lebih baik dan lebih bijak.",
+      "Jangan biarkan penyesalan menguasai hidupmu, teruslah maju dan berjuang.",
+      "Kamu memiliki kemampuan untuk mencapai apa saja yang kamu inginkan dan impikan"
     ];
+    
+    const random = kata[Math.floor(Math.random() * kata.length)];
+    document.getElementById("kata").innerText = random;
 
-    // Pilih kata acak
-    const randomKata = kataList[Math.floor(Math.random() * kataList.length)];
+    function copyText() {
+      const textToCopy = document.getElementById("kata").innerText;
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          // Menampilkan pesan "Kata berhasil disalin!"
+          const successMessage = document.getElementById("successMessage");
+          successMessage.style.display = "block";
 
-    // Tampilkan di halaman
-    document.getElementById("kataRandom").innerText = randomKata;
+          // Menghilangkan pesan setelah 3 detik
+          setTimeout(() => {
+            successMessage.style.display = "none";
+          }, 3000);
+        })
+        .catch(err => {
+          console.error("Gagal menyalin: ", err);
+        });
+    }
   </script>
-
 </body>
 </html>
